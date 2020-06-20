@@ -1,0 +1,17 @@
+.navbar {
+    background-color: #ff9591;
+}
+
+.card {
+    background-color: #e5e5e5;
+}
+
+.form-group {
+    padding-top: .5em;
+}
+
+.btn {
+    background-color: #303960;
+    color: white;
+    padding: 1%;
+}
