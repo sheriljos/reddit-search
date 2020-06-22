@@ -1,3 +1,5 @@
+import reddit from "./redditapi";
+
 const searchForm = document.getElementById("search-form");
 
 searchForm.addEventListener("submit", e => {
@@ -9,8 +11,15 @@ searchForm.addEventListener("submit", e => {
     }
 
     const searchTerm = searchInput.value;
-    const sortBy     = document.getElementById("limit").value;
-    const limit      = document.querySelector("input[name=inlineRadioOptions]:checked").value;
+    const  limit     = document.getElementById("limit").value;
+    const sortBy     = document.querySelector("input[name=inlineRadioOptions]:checked").value;
+
+    searchInput.value = "";
+
+    reddit.search(searchTerm, sortBy, limit)
+    .then(result => {console.log(result)})
+    //TODO: catch should display error message
+    
 })
 
 function showErrorMessage() {
