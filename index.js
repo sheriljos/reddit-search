@@ -17,23 +17,42 @@ searchForm.addEventListener("submit", e => {
     searchInput.value = "";
 
     reddit.search(searchTerm, sortBy, limit)
-    .then(result => {console.log(result)})
+    .then(result => displayItems(result))
     //TODO: catch should display error message
     
+    function showErrorMessage() {
+        const searchContainer    = document.getElementById("search-container");
+        const searchForm         = document.getElementById("search");
+        let errorComponent       = document.getElementsByClassName("alert-warning");
+    
+        if (errorComponent.length === 0) {
+            errorComponent           = document.createElement("div");
+            errorComponent.className = "alert alert-warning";
+            errorComponent.innerHTML = "Search field should not be empty";
+    
+            searchContainer.insertBefore(errorComponent, searchForm);
+            setTimeout(() => errorComponent.remove(), 3000);
+        }
+    }
+    function displayItems(results) {
+        let searchResult = '';
+
+        results.forEach(result => {
+            searchResult = searchResult + 
+            `
+                <div class="card col-4 p-2">
+                    <img src="${result.thumbnail}" class="card-img-top" alt="..." height="181">
+                    <div class="card-body">
+                        <h5 class="card-title">${result.title}</h5>
+                        <p class="card-text">${result.selftext}</p>
+                        <a href="${result.url}" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            `
+        });
+
+        document.getElementById("results").innerHTML = searchResult;
+    }
 })
 
-function showErrorMessage() {
-    const searchContainer    = document.getElementById("search-container");
-    const searchForm         = document.getElementById("search");
-    let errorComponent       = document.getElementsByClassName("alert-warning");
-
-    if (errorComponent.length === 0) {
-        errorComponent           = document.createElement("div");
-        errorComponent.className = "alert alert-warning";
-        errorComponent.innerHTML = "Search field should not be empty";
-
-        searchContainer.insertBefore(errorComponent, searchForm);
-        setTimeout(() => errorComponent.remove(), 3000);
-    }
-}
 
