@@ -38,13 +38,16 @@ searchForm.addEventListener("submit", e => {
         let searchResult = '';
 
         results.forEach(result => {
+            const imageResult = result.thumbnail.includes('jpg') ? result.thumbnail :
+                "https://assets.prestashop2.com/sites/default/files/styles/blog_750x320/public/blog/2019/10/banner_error_404.jpg?itok=eAS4swln";
+
             searchResult = searchResult + 
             `
-                <div class="card col-4 p-2">
-                    <img src="${result.thumbnail}" class="card-img-top" alt="..." height="181">
+                <div class="card col-4 p-2 mb-1">
+                    <img src=${imageResult} class="card-img-top" alt="..." height="200">
                     <div class="card-body">
                         <h5 class="card-title">${result.title}</h5>
-                        <p class="card-text">${result.selftext}</p>
+                        <p class="card-text">${result.selftext.substring(0,150) + '...'}</p>
                         <a href="${result.url}" class="btn btn-primary">Read More</a>
                     </div>
                 </div>
@@ -54,5 +57,4 @@ searchForm.addEventListener("submit", e => {
         document.getElementById("results").innerHTML = searchResult;
     }
 })
-
 
