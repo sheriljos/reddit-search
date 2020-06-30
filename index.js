@@ -7,7 +7,12 @@ searchForm.addEventListener("submit", e => {
     const searchInput = document.getElementById("item");
     
     if (!searchInput.value) {
-        showErrorMessage();
+        showErrorMessage(
+            "Search field should not be empty",
+            "alert-warning"
+        );
+
+        return;
     }
 
     const searchTerm = searchInput.value;
@@ -18,23 +23,35 @@ searchForm.addEventListener("submit", e => {
 
     reddit.search(searchTerm, sortBy, limit)
     .then(result => displayItems(result))
-    //TODO: catch should display error message
+    .catch(err => showErrorMessage(
+        "Oops! Try again",
+        "alert-danger"
+    ));
     
-    function showErrorMessage() {
+    function showErrorMessage(text, classType) {
         const searchContainer    = document.getElementById("search-container");
         const searchForm         = document.getElementById("search");
-        let errorComponent       = document.getElementsByClassName("alert-warning");
+        let errorComponent       = document.getElementsByClassName(classType);
     
         if (errorComponent.length === 0) {
-            errorComponent           = document.createElement("div");
-            errorComponent.className = "alert alert-warning";
-            errorComponent.innerHTML = "Search field should not be empty";
+            let errorComponent           = document.createElement("div");
+            errorComponent.className = `alert ${classType}`;
+            errorComponent.innerHTML = text;
     
             searchContainer.insertBefore(errorComponent, searchForm);
             setTimeout(() => errorComponent.remove(), 3000);
         }
     }
     function displayItems(results) {
+        console.log(results)
+        if (results == 0) {
+            showErrorMessage(
+                "We could not find any article you searched",
+                "alert-danger"
+            )
+
+            return;
+        }
         let searchResult = '';
 
         results.forEach(result => {
