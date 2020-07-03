@@ -5,6 +5,4 @@ export default {
         .then(data => data.data.children.map(data => data.data))
         .catch(err => console.log(err))
     }
-
-    //TODO: display popular articles on page load
 }
